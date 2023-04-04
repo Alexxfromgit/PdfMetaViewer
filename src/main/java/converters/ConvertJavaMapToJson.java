@@ -7,11 +7,10 @@ import java.util.Map;
 
 public class ConvertJavaMapToJson {
 
-    public String convertMapToJson(Map<String,String> mapToConvert) {
+    public String convertMapToJson(Map<String, String> mapToConvert) {
         String json = "";
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            json = objectMapper.writeValueAsString(mapToConvert);
+            json = new ObjectMapper().writeValueAsString(mapToConvert);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
