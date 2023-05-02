@@ -1,6 +1,7 @@
 package repository;
 
 import converters.ConvertJavaMapToJson;
+import utilities.PdfMetaViewerConstants;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -18,7 +19,18 @@ public class DocumentRepository {
     public static void storeMetadataRecord(DocumentRecord documentRecord, boolean isContentIncluded) {
 
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(
-                Files.newOutputStream(Paths.get("src/main/resources/metadata.json")), StandardCharsets.UTF_8))) {
+                Files.newOutputStream(Paths.get(PdfMetaViewerConstants.RESOURCES_PATH)), StandardCharsets.UTF_8))) {
+            writer.write(new ConvertJavaMapToJson().convertMapToJson(documentRecord.getMetadata()));
+            if (isContentIncluded) writer.append(documentRecord.getContent());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void storeMetadataRecord(DocumentRecord documentRecord, String filePath, boolean isContentIncluded) {
+
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+                Files.newOutputStream(Paths.get(filePath)), StandardCharsets.UTF_8))) {
             writer.write(new ConvertJavaMapToJson().convertMapToJson(documentRecord.getMetadata()));
             if (isContentIncluded) writer.append(documentRecord.getContent());
         } catch (IOException e) {

@@ -22,14 +22,23 @@ public class PDFExtractor {
     ParseContext parseContext = new ParseContext();
     PDFParser pdfParser = new PDFParser();
 
-    public void importPDF(String filePath, boolean isContentIncluded) {
+    public DocumentRecord getDocumentRecordFromImportedPDF(String filePath) {
+        DocumentRecord documentRecord = null;
         try {
             pdfParser.parse(Files.newInputStream(Paths.get(filePath)), handler, metadata, parseContext);
-            DocumentRecord documentRecord = new DocumentRecord(getMetadata(), getDocumentText());
-            DocumentRepository.storeMetadataRecord(documentRecord, isContentIncluded);
+            documentRecord = new DocumentRecord(getMetadata(), getDocumentText());
         } catch (TikaException | SAXException | IOException e) {
             e.printStackTrace();
         }
+        return documentRecord;
+    }
+
+    public void storeDocumentRecordAs(DocumentRecord documentRecord, boolean isContentIncluded) {
+        DocumentRepository.storeMetadataRecord(documentRecord, isContentIncluded);
+    }
+
+    public void storeDocumentRecordAs(DocumentRecord documentRecord, String filePath, boolean isContentIncluded) {
+        DocumentRepository.storeMetadataRecord(documentRecord, filePath, isContentIncluded);
     }
 
     private String getDocumentText() {
