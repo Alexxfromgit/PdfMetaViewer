@@ -4,7 +4,6 @@ import extractor.PDFExtractor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
-import repository.DocumentRecord;
 import utils.TestFailureLog;
 
 import java.io.IOException;
