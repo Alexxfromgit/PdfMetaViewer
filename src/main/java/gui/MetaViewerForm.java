@@ -53,7 +53,7 @@ public class MetaViewerForm extends JFrame {
             jFileChooser.showOpenDialog(panelMain);
             selectedFile = jFileChooser.getSelectedFile();
 
-            if (selectedFile.isFile()) {
+            if (selectedFile != null && selectedFile.isFile()) {
                 statusLabel.setText(DESCRIPTION_FILE_SELECTED);
                 statusLabel.setForeground(Color.GREEN);
             } else {
@@ -65,6 +65,7 @@ public class MetaViewerForm extends JFrame {
         readMetaButton.addActionListener(e -> {
             if (selectedFile != null) {
                 documentRecord = new PDFExtractor().getDocumentRecordFromImportedPDF(selectedFile.getAbsolutePath());
+
                 textArea1.setText(new ConvertJavaMapToJson()
                         .convertMapToJson(documentRecord.getMetadata())
                         .replace(",", "," + System.lineSeparator()));
